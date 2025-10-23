@@ -106,11 +106,43 @@ function renderTable(){
     const body = document.getElementById('tableBody');
     body.innerHTML = '';
     const columns = [
-  'OT', 'datetime', 'company', 'engineer', 'phone', 'city', 'description',
-  'brand', 'model', 'serial', 'controlnum', 'status', 'ubication', 'temperature',
-  'humidity', 'info_fail', 'if_not_work', 'part_change', 'act_work',
-  'ini_work', 'fin_work', 'heat_from', 'heat_target', 'heat_test', 'temp_high', 'temp_low', 'cold_test',
-  'hum_low', 'hum_high', 'hum_test','pulldown','notes'
+  'folio',
+  'OT',
+  'datetime',
+  'company',
+  'engineer',
+  'phone',
+  'city',
+  'description',
+  'brand',
+  'model',
+  'serial',
+  'controlnum',
+  'status',
+  'ubication',
+  'temperature',
+  'humidity',
+  'info_fail',
+  'if_not_work',
+  'part_change',
+  'act_work',
+  'ini_work',
+  'fin_work',
+  'heat_from',
+  'heat_target',
+  'heat_test',
+  'hum_low',
+  'hum_high',
+  'hum_test',
+  'temp_high',
+  'temp_low',
+  'cold_test',
+  'pulldown',
+  'notes',
+  'name_esp',
+  'name_cus',
+  'signatureEsp',
+  'signatureCus'
 ];
     
     head.innerHTML = columns.map(c => `<th>${c.toUpperCase().replace(/_/g, ' ')}</th>`).join('');
