@@ -44,6 +44,7 @@ function generateFolio() {
 // ======================
 // GUARDAR REGISTRO
 // ======================
+document.addEventListener('DOMContentLoaded', () => {
 document.getElementById('saveBtn').addEventListener('click', () => {
     const record = {
         folio: generateFolio(),
@@ -83,6 +84,7 @@ document.getElementById('saveBtn').addEventListener('click', () => {
         name_cus: get('name_cus'),
         signatureEsp: getSignatureData('signaturePreviewEsp'),
         signatureCus: getSignatureData('signaturePreviewCus'),
+    };
     };
     records.push(record);
     localStorage.setItem(storageKey, JSON.stringify(records));
