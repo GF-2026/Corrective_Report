@@ -85,7 +85,6 @@ document.getElementById('saveBtn').addEventListener('click', () => {
         signatureEsp: getSignatureData('signaturePreviewEsp'),
         signatureCus: getSignatureData('signaturePreviewCus'),
     };
-    };
     records.push(record);
     localStorage.setItem(storageKey, JSON.stringify(records));
     renderTable();
@@ -199,10 +198,100 @@ const canvas = document.getElementById('signatureCanvas');
 const ctx = canvas.getContext('2d');
 let drawing = false;
 
-function openSignature(target) {
-    currentSignatureTarget = target;
-    modal.classList.add('active');
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+function openSignature(target){
+    currentSignatureTarget = target;
+    modal.classList.add('active');
+    ctx.clearRect(0,0,canvas.width,canvas.height);
 }
 
-document.getElementById('openSignatureEsp').addEventListener('click',
+document.getElementById('openSignatureEsp').addEventListener('click',()=>openSignature('esp'));
+document.getElementById('openSignatureCus').addEventListener('click',()=>openSignature('cus'));
+
+document.getElementById('closeSignature').addEventListener('click',()=>modal.classList.remove('active'));
+document.getElementById('clearSignature').addEventListener('click',()=>ctx.clearRect(0,0,canvas.width,canvas.height));
+document.getElementById('saveSignature').addEventListener('click',()=>{
+    const dataURL = canvas.toDataURL();
+    let preview = currentSignatureTarget==='esp'?document.getElementById('signaturePreviewEsp'):document.getElementById('signaturePreviewCus');
+    // Se agrega una verificación si 'preview' existe antes de obtener el contexto
+    if (!preview) {
+        console.error("No se encontró el canvas de vista previa para la firma.");
+        modal.classList.remove('active');
+        return;
+    }
+    
+    const pctx = preview.getContext('2d');
+    const img = new Image();
+    img.onload = ()=>{pctx.clearRect(0,0,300,150); pctx.drawImage(img,0,0,300,150)};
+    img.src = dataURL;
+    modal.classList.remove('active');
+});
+
+// ======================
+// DIBUJO CANVAS
+// ======================
+const getTouchPos = (canvasDom, touchEvent) => {
+    const rect = canvasDom.getBoundingClientRect();
+    // Obtiene la posición del primer toque (touch) y ajusta por el scroll y la posición del canvas
+    return {
+        x: touchEvent.touches[0].clientX - rect.left,
+        y: touchEvent.touches[0].clientY - rect.top
+    };
+};
+
+// Eventos del Mouse
+canvas.addEventListener('mousedown', e => {
+    e.preventDefault();
+    drawing = true; 
+    ctx.beginPath(); 
+    ctx.moveTo(e.offsetX, e.offsetY);
+});
+
+canvas.addEventListener('mouseup', () => { drawing = false; });
+canvas.addEventListener('mouseout', () => { drawing = false; });
+canvas.addEventListener('mousemove', e => {
+    if (!drawing) return; 
+    ctx.lineWidth = 2; 
+    ctx.lineCap = 'round'; 
+    ctx.strokeStyle = '#000'; 
+    ctx.lineTo(e.offsetX, e.offsetY); 
+    ctx.stroke();
+});
+
+// Eventos Táctiles (para móviles)
+canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    drawing = true;
+    const touch = getTouchPos(canvas, e);
+    ctx.beginPath();
+    ctx.moveTo(touch.x, touch.y);
+}, false);
+
+canvas.addEventListener('touchend', () => { drawing = false; });
+
+canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (!drawing) return;
+    const touch = getTouchPos(canvas, e);
+    ctx.lineWidth = 2;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = '#000';
+    ctx.lineTo(touch.x, touch.y);
+    ctx.stroke();
+}, false);
+const seccion = document.getElementById('section-headerx');
+
+if (seccion) {
+  // Para ocultarla
+  seccion.style.display = 'none';
+  
+  // Para volver a mostrarla más tarde (por ejemplo, al hacer clic en un botón)
+  // seccion.style.display = 'block'; 
+}
+// Sección de semáforos
+function setEstado(num, color) {
+  const colores = ['roja', 'amarilla', 'verde'];
+  colores.forEach(c => {
+    document.getElementById(c + num).classList.remove('activa');
+  });
+  document.getElementById(color + num).classList.add('activa');
+}
