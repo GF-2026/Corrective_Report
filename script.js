@@ -42,6 +42,7 @@ function generateFolio(){
 // ======================
 document.getElementById('saveBtn').addEventListener('click', () => {
 const record = {
+ folio: generateFolio(),
   OT: get('OT'),
   datetime: get('datetime'),
   company: get('company'),
