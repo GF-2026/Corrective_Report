@@ -574,7 +574,7 @@ function verProximoServicio() {
 }
 document.getElementById('sendEmailBtn').addEventListener('click', () => {
   const to = "tck@olimp0.com";
-  const subject = encodeURIComponent("Nuevo reporte preventivo");
+  const subject = encodeURIComponent("Nuevo reporte correctivo");
 
   const company = get('company');
   const folio = generateFolio('folio');
