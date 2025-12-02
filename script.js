@@ -56,7 +56,7 @@ function generateFolio(){
     const now = new Date();
     const y = now.getFullYear(), m = String(now.getMonth()+1).padStart(2,'0'), d = String(now.getDate()).padStart(2,'0');
     const h = String(now.getHours()).padStart(2,'0'), min = String(now.getMinutes()).padStart(2,'0');
-    return `Preventive_Report-${company}-${y}${m}${d}-${h}${min}`;
+    return `Corrective_Report-${company}-${y}${m}${d}-${h}${min}`;
 }
 
 // ======================
@@ -549,7 +549,7 @@ function verProximoServicio() {
 }
 document.getElementById('sendEmailBtn').addEventListener('click', () => {
   const to = "tck@olimp0.com";
-  const subject = encodeURIComponent("Nuevo reporte preventivo");
+  const subject = encodeURIComponent("Nuevo reporte Correctivo");
 
   const company = get('company');
   const folio = generateFolio('folio');
@@ -561,7 +561,7 @@ document.getElementById('sendEmailBtn').addEventListener('click', () => {
   // 💡 Usamos HTML con <br> para asegurar formato visible en BlueMail
   const htmlBody =
 `Hola,<br><br>
-Tienes un nuevo reporte preventivo:<br><br>
+Tienes un nuevo reporte Correctivo:<br><br>
 <strong>Folio:</strong> ${folio}<br>
 <strong>Empresa:</strong> ${company}<br>
 <strong>Modelo:</strong> ${model}<br>
